@@ -11,15 +11,19 @@ export:
 	@$(DC) exec app npm run introspect
 	# sudo chown -R `id -u`:`id -g` ./hasura ./app
 
+db-reset:
+	@$(DC) down
+	docker volume rm hackathon-starter_db_data
+	@$(DC) up -d
+
 rebuild:
 	@$(DC) down
-	@$(DC) -f docker-compose.prod.yml down
+	docker volume rm hackathon-starter_db_data
 	@$(DC) build --no-cache
 	@$(DC) up -d
 
 reboot:
 	@$(DC) down
-	@$(DC) -f docker-compose.prod.yml down
 	@$(DC) build 
 	@$(DC) up -d
 
