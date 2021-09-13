@@ -15,7 +15,7 @@ services:
       TOKEN_KEY: ${JWT_SECRET_KEY}
 
   postgres:
-    image: postgres:12
+    image: postgres:13
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
