@@ -13,6 +13,7 @@ services:
       - "postgres"
     environment:
       TOKEN_KEY: ${JWT_SECRET_KEY}
+      PG_PASSWORD: ${POSTGRES_PW}
 
   postgres:
     image: postgres:12
