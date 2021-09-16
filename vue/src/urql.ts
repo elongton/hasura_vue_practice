@@ -2,35 +2,41 @@ import {
   cacheExchange,
   createClient,
   dedupExchange,
+  fetchExchange,
   subscriptionExchange,
 } from "@urql/core";
-import { authExchange } from "@urql/exchange-auth";
+import { devtoolsExchange } from "@urql/devtools";
 import { SubscriptionClient } from "subscriptions-transport-ws";
+import { token } from "./hooks/auth";
 
-const subscriptionClient = new SubscriptionClient("ws://localhost/v1/graphql", {
-  reconnect: true,
-  lazy: true,
-  connectionParams: () => ({
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ?`,
-    },
-  }),
-});
+const subscriptionClient = new SubscriptionClient(
+  "ws://localhost:8080/v1/graphql",
+  {
+    reconnect: true,
+    lazy: true,
+    connectionParams: () => ({
+      headers: {
+        "content-type": "application/json",
+        ...(token.value && { authorization: `Bearer ${token.value}` }),
+      },
+    }),
+  }
+);
 
 export const urqlOptions = createClient({
-  url: "http://localhost/v1/graphql",
-  fetchOptions: {
-    headers: { accept: "application/json", authorization: "Bearer ?" },
-  },
+  url: "http://localhost:8080/v1/graphql",
+  fetchOptions: () => ({
+    headers: {
+      "content-type": "application/json",
+      ...(token.value && { authorization: `Bearer ${token.value}` }),
+    },
+  }),
   requestPolicy: "cache-and-network",
   exchanges: [
+    devtoolsExchange,
     dedupExchange,
     cacheExchange,
-    authExchange({
-      addAuthToOperation: ({ authState, operation }) => operation,
-      getAuth: async ({ authState, mutate }) => authState,
-    }),
+    fetchExchange,
     subscriptionExchange({
       // @ts-ignore
       forwardSubscription: (operation) => subscriptionClient.request(operation),

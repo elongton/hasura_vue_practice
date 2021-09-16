@@ -454,12 +454,43 @@ export type Subscription_RootAuth_Users_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+export type LoginMutationVariables = Exact<{
+  args: LoginArgs;
+}>;
+
+
+export type LoginMutation = { __typename?: 'mutation_root', login?: Maybe<{ __typename?: 'LoginResult', token: string }> };
+
+export type RegisterMutationVariables = Exact<{
+  args: RegisterArgs;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'mutation_root', register?: Maybe<{ __typename?: 'RegisterResult', token: string }> };
+
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
-export type UserQueryVariables = Exact<{ [key: string]: never; }>;
+export type UsersQueryVariables = Exact<{
+  distinct_on?: Maybe<Array<Auth_Users_Select_Column> | Auth_Users_Select_Column>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Auth_Users_Order_By> | Auth_Users_Order_By>;
+  where?: Maybe<Auth_Users_Bool_Exp>;
+}>;
 
 
-export type UserQuery = { __typename?: 'query_root', auth_users: Array<{ __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string }> };
+export type UsersQuery = { __typename?: 'query_root', auth_users: Array<{ __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string }> };
+
+export type UsersStreamSubscriptionVariables = Exact<{
+  distinct_on?: Maybe<Array<Auth_Users_Select_Column> | Auth_Users_Select_Column>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Auth_Users_Order_By> | Auth_Users_Order_By>;
+  where?: Maybe<Auth_Users_Bool_Exp>;
+}>;
+
+
+export type UsersStreamSubscription = { __typename?: 'subscription_root', auth_users: Array<{ __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string }> };
 
 export const UserFieldsFragmentDoc = gql`
     fragment UserFields on auth_users {
@@ -469,14 +500,59 @@ export const UserFieldsFragmentDoc = gql`
   email
 }
     `;
-export const UserDocument = gql`
-    query User {
-  auth_users {
+export const LoginDocument = gql`
+    mutation Login($args: LoginArgs!) {
+  login(args: $args) {
+    token
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const RegisterDocument = gql`
+    mutation Register($args: RegisterArgs!) {
+  register(args: $args) {
+    token
+  }
+}
+    `;
+
+export function useRegisterMutation() {
+  return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const UsersDocument = gql`
+    query Users($distinct_on: [auth_users_select_column!], $limit: Int, $offset: Int, $order_by: [auth_users_order_by!], $where: auth_users_bool_exp) {
+  auth_users(
+    distinct_on: $distinct_on
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
     ...UserFields
   }
 }
     ${UserFieldsFragmentDoc}`;
 
-export function useUserQuery(options: Omit<Urql.UseQueryArgs<never, UserQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+export function useUsersQuery(options: Omit<Urql.UseQueryArgs<never, UsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
+};
+export const UsersStreamDocument = gql`
+    subscription UsersStream($distinct_on: [auth_users_select_column!], $limit: Int, $offset: Int, $order_by: [auth_users_order_by!], $where: auth_users_bool_exp) {
+  auth_users(
+    distinct_on: $distinct_on
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
+    ...UserFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
+
+export function useUsersStreamSubscription<R = UsersStreamSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, UsersStreamSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<UsersStreamSubscription, R>) {
+  return Urql.useSubscription<UsersStreamSubscription, R, UsersStreamSubscriptionVariables>({ query: UsersStreamDocument, ...options }, handler);
 };
