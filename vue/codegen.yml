@@ -2,7 +2,7 @@ schema:
   - ${VITE_APP_HASURA_HTTP_URL}:
       headers:
         Content-Type: application/json
-        x-hasura-admin-secret: ${VITE_APP_HASURA_SECRET}
+        x-hasura-admin-secret: ${HASURA_SECRET}
 
 documents: src/**/*.graphql
 generates:

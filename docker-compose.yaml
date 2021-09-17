@@ -70,7 +70,7 @@ services:
     environment:
       VITE_APP_HASURA_HTTP_URL: ${HASURA_HTTP_URL}
       VITE_APP_HASURA_WS_URL: ${HASURA_WS_URL}
-      VITE_APP_HASURA_SECRET: ${HASURA_SECRET}
+      HASURA_SECRET: ${HASURA_SECRET}
 
 volumes:
   db_data:
