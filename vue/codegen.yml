@@ -1,5 +1,5 @@
 schema:
-  - ${VITE_APP_HASURA_HTTP_URL}:
+  - http://hasura:8080/v1/graphql:
       headers:
         Content-Type: application/json
         x-hasura-admin-secret: ${HASURA_SECRET}

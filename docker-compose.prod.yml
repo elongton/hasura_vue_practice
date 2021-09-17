@@ -26,6 +26,8 @@ services:
       - "postgres"
     restart: always
     working_dir: /hasura
+    ports:
+      - "8080:8080"
     volumes:
       - ./hasura:/hasura
     environment:
