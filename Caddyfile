@@ -2,13 +2,9 @@ rocktalk.xyz {
     root * /srv
     encode gzip
 
-    try_files {path} index.html
+    try_files {path} /index.html
 
     file_server
-}
-
-auth.rocktalk.xyz {
-    reverse_proxy express:8000
 }
 
 api.rocktalk.xyz {
