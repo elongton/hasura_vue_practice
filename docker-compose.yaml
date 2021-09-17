@@ -20,7 +20,6 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./postgres/migrations:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PW}
     #exposed this port for local dev
@@ -54,7 +53,7 @@ services:
       HASURA_GRAPHQL_SEEDS_DIR: /hasura/seeds
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       ## uncomment next line to set an admin secret
-      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_SECRET}
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "${JWT_SECRET_KEY}"}'
 
   vue:
@@ -68,6 +67,10 @@ services:
       - "3000:3000"
     depends_on:
       - "hasura"
+    environment:
+      VITE_APP_HASURA_HTTP_URL: ${HASURA_HTTP_URL}
+      VITE_APP_HASURA_WS_URL: ${HASURA_WS_URL}
+      VITE_APP_HASURA_SECRET: ${HASURA_SECRET}
 
 volumes:
   db_data:

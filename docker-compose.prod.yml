@@ -17,9 +17,8 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./postgres/migrations:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_PASSWORD: ${POSTGRES_PW}
 
   hasura:
     image: hasura/graphql-engine:v2.0.9
@@ -31,9 +30,9 @@ services:
       - ./hasura:/hasura
     environment:
       ## postgres database to store Hasura metadata
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:${POSTGRES_PW}@postgres:5432/postgres
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      PG_DATABASE_URL: postgres://postgres:${POSTGRES_PW}@postgres:5432/postgres
       ## enable the console served by server
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
       ## enable debugging mode. It is recommended to disable this in production
@@ -45,7 +44,7 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "thisisareallylongkeyitneedstobeatleastthirtytwocharactersaccordingtohasura"}'
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "${JWT_SECRET_KEY}"}'
 
   vue:
     build:
@@ -54,8 +53,10 @@ services:
     volumes:
       - /usr/src/app/node_modules
       - vue_static:/usr/src/app/dist
-    depends_on:
-      - "hasura"
+    environment:
+      VITE_APP_HASURA_HTTP_URL: ${HASURA_HTTP_URL}
+      VITE_APP_HASURA_WS_URL: ${HASURA_WS_URL}
+      VITE_APP_HASURA_SECRET: ${HASURA_SECRET}
 
   caddy:
     image: caddy:2.4.5-alpine

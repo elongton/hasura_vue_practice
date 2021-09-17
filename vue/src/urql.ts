@@ -10,7 +10,7 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 import { token } from "./hooks/auth";
 
 const subscriptionClient = new SubscriptionClient(
-  "ws://localhost:8080/v1/graphql",
+  import.meta.env.VITE_APP_HASURA_WS_URL as string,
   {
     reconnect: true,
     lazy: true,
@@ -24,7 +24,7 @@ const subscriptionClient = new SubscriptionClient(
 );
 
 export const urqlOptions = createClient({
-  url: "http://localhost:8080/v1/graphql",
+  url: import.meta.env.VITE_APP_HASURA_HTTP_URL as string,
   fetchOptions: () => ({
     headers: {
       "content-type": "application/json",

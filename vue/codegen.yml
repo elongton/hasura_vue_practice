@@ -1,8 +1,8 @@
 schema:
-  - http://hasura:8080/v1/graphql:
+  - ${VITE_APP_HASURA_HTTP_URL}:
       headers:
         Content-Type: application/json
-        x-hasura-admin-secret: myadminsecretkey
+        x-hasura-admin-secret: ${VITE_APP_HASURA_SECRET}
 
 documents: src/**/*.graphql
 generates:
