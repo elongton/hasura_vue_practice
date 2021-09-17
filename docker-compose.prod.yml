@@ -38,14 +38,13 @@ services:
       ## enable the console served by server
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
       ## enable debugging mode. It is recommended to disable this in production
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
 
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura/migrations
       HASURA_GRAPHQL_METADATA_DIR: /hasura/metadata
       HASURA_GRAPHQL_SEEDS_DIR: /hasura/seeds
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
       ## uncomment next line to set an admin secret
-      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_SECRET}
       HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key": "${JWT_SECRET_KEY}"}'
 
   vue:
