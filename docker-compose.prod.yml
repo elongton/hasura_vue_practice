@@ -26,11 +26,10 @@ services:
       - "postgres"
     restart: always
     working_dir: /hasura
-    ports:
-      - "8080:8080"
     volumes:
       - ./hasura:/hasura
     environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PW}@postgres:5432/postgres
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:${POSTGRES_PW}@postgres:5432/postgres
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs

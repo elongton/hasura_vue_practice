@@ -1,19 +1,12 @@
-www.rocktalk.xyz {
-	redir https://rocktalk.xyz{uri}
+rocktalk.xyz
+
+handle_path /api/* {
+    reverse_proxy hasura:8080
 }
 
-rocktalk.xyz {
+handle {
     root * /srv
     encode gzip
-
     try_files {path} /index.html
-
     file_server
-
-    reverse_proxy /api hasura:8080  {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-    }
 }
