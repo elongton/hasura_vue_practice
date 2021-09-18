@@ -35,6 +35,7 @@ const { logout, user, isLoggedIn } = useAuth();
   background-color: var(--surface-c);
   & > div {
     max-width: 1440px;
+    margin: auto;
   }
 }
 .flex > * {
