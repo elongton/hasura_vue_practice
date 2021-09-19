@@ -3,7 +3,6 @@ import {
   Mutation_RootRegisterArgs,
   RegisterResult,
 } from "../../api";
-import bcrypt from "bcrypt";
 import { createJwtToken, verifyPassword } from "../../services/jwt";
 import { WebhookHandler } from "../../types";
 import { userByEmail } from "../../services/users";
