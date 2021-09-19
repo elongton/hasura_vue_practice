@@ -1,4 +1,4 @@
-import { createJwtToken, encryptPassword } from "../../services/jwt";
+import { createJwtToken } from "../../services/jwt";
 import { insertUser, userByEmail } from "../../services/users";
 import { WebhookHandler } from "../../types";
 import { Auth_Users, LoginResult, Mutation_RootRegisterArgs } from "../../api";

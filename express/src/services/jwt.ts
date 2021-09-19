@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { Auth_Users } from "../api";
 
 // Defaults to one year
 export const jwtExpiration = () =>
@@ -22,3 +23,8 @@ export const createJwtToken = (userId: number) =>
 
 export const encryptPassword = (password: string): Promise<string> =>
   bcrypt.hash(password, 10);
+
+export const verifyPassword = async (
+  password: string,
+  user: Auth_Users
+): Promise<boolean> => bcrypt.compare(password, user.encrypted_password);

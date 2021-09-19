@@ -4,7 +4,7 @@ import {
   RegisterResult,
 } from "../../api";
 import bcrypt from "bcrypt";
-import { createJwtToken } from "../../services/jwt";
+import { createJwtToken, verifyPassword } from "../../services/jwt";
 import { WebhookHandler } from "../../types";
 import { userByEmail } from "../../services/users";
 
@@ -22,7 +22,7 @@ export const login: WebhookHandler<Mutation_RootRegisterArgs, RegisterResult> =
       // const user = users.find((u) => u.email == email);
       const user: Auth_Users = await userByEmail(email);
 
-      if (user && (await bcrypt.compare(password, user.encrypted_password))) {
+      if (user && (await verifyPassword(password, user))) {
         // Create token
         const token = createJwtToken(user.id);
         res.status(200).json({ token });
