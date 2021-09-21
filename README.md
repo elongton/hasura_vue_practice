@@ -1,9 +1,7 @@
-# Hackathon Starter
+# Vue Hasura Practice
 
-Contains docker images for 
+## Build a simple logging application
 
-- Postgres Database
-- Hasura API Layer
-- Express for JWT and user auth
-- Vue frontend
-- Caddy deployment server
+- [ ] Create simple database schema
+- [ ] Generate post queries: get, create, delete, edit
+- [ ] Build simple view
