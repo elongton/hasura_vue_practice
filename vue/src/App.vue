@@ -1,7 +1,7 @@
 <template>
   <toast />
   <app-header />
-  test
+
   <main class="p-4 m-auto">
     <router-view />
   </main>

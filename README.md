@@ -3,5 +3,9 @@
 ## Build a simple logging application
 
 - [ ] Create simple database schema
-- [ ] Generate post queries: get, create, delete, edit
+- [ ] Generate lgo post queries: get, create, delete, edit
 - [ ] Build simple view
+
+Questions for alex:
+
+1. how do we generate seed data from local DB?
