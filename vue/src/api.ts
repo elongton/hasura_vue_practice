@@ -779,6 +779,11 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'mutation_root', register?: Maybe<{ __typename?: 'RegisterResult', token: string }> };
 
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'query_root', posts: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user_id: number }> };
+
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
 export type UsersQueryVariables = Exact<{
@@ -832,6 +837,20 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const PostsDocument = gql`
+    query Posts {
+  posts {
+    id
+    image_url
+    text
+    user_id
+  }
+}
+    `;
+
+export function usePostsQuery(options: Omit<Urql.UseQueryArgs<never, PostsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
 export const UsersDocument = gql`
     query Users($distinct_on: [auth_users_select_column!], $limit: Int, $offset: Int, $order_by: [auth_users_order_by!], $where: auth_users_bool_exp) {

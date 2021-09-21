@@ -1,0 +1,8 @@
+query Posts {
+  posts {
+    id
+    image_url
+    text
+    user_id
+  }
+}
