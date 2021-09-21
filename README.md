@@ -2,7 +2,7 @@
 
 ## Build a simple logging application
 
-- [ ] Create simple database schema
+- [x] Create simple database schema
 - [ ] Generate lgo post queries: get, create, delete, edit
 - [ ] Build simple view
 
