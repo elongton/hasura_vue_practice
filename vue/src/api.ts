@@ -193,6 +193,13 @@ export type Auth_Users_Mutation_Response = {
   returning: Array<Auth_Users>;
 };
 
+/** input type for inserting object relation for remote table "auth.users" */
+export type Auth_Users_Obj_Rel_Insert_Input = {
+  data: Auth_Users_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Auth_Users_On_Conflict>;
+};
+
 /** on conflict condition type for table "auth.users" */
 export type Auth_Users_On_Conflict = {
   constraint: Auth_Users_Constraint;
@@ -442,6 +449,8 @@ export type Posts = {
   id: Scalars['Int'];
   image_url: Scalars['String'];
   text: Scalars['String'];
+  /** An object relationship */
+  user: Auth_Users;
   user_id: Scalars['Int'];
 };
 
@@ -490,6 +499,7 @@ export type Posts_Bool_Exp = {
   id?: Maybe<Int_Comparison_Exp>;
   image_url?: Maybe<String_Comparison_Exp>;
   text?: Maybe<String_Comparison_Exp>;
+  user?: Maybe<Auth_Users_Bool_Exp>;
   user_id?: Maybe<Int_Comparison_Exp>;
 };
 
@@ -510,6 +520,7 @@ export type Posts_Insert_Input = {
   id?: Maybe<Scalars['Int']>;
   image_url?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+  user?: Maybe<Auth_Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
@@ -552,6 +563,7 @@ export type Posts_Order_By = {
   id?: Maybe<Order_By>;
   image_url?: Maybe<Order_By>;
   text?: Maybe<Order_By>;
+  user?: Maybe<Auth_Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
@@ -779,10 +791,24 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'mutation_root', register?: Maybe<{ __typename?: 'RegisterResult', token: string }> };
 
+export type PostsFragmentFragment = { __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } };
+
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PostsQuery = { __typename?: 'query_root', posts: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user_id: number }> };
+
+export type PostsStreamSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsStreamSubscription = { __typename?: 'subscription_root', posts: Array<{ __typename?: 'posts', id: number, image_url: string, user_id: number, text: string }> };
+
+export type InsertPostMutationVariables = Exact<{
+  object?: Maybe<Posts_Insert_Input>;
+}>;
+
+
+export type InsertPostMutation = { __typename?: 'mutation_root', insert_posts_one?: Maybe<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> };
 
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
@@ -808,6 +834,18 @@ export type UsersStreamSubscriptionVariables = Exact<{
 
 export type UsersStreamSubscription = { __typename?: 'subscription_root', auth_users: Array<{ __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string }> };
 
+export const PostsFragmentFragmentDoc = gql`
+    fragment postsFragment on posts {
+  id
+  image_url
+  text
+  user {
+    first_name
+    last_name
+    id
+  }
+}
+    `;
 export const UserFieldsFragmentDoc = gql`
     fragment UserFields on auth_users {
   id
@@ -851,6 +889,31 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<never, PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
+};
+export const PostsStreamDocument = gql`
+    subscription PostsStream {
+  posts {
+    id
+    image_url
+    user_id
+    text
+  }
+}
+    `;
+
+export function usePostsStreamSubscription<R = PostsStreamSubscription>(options: Omit<Urql.UseSubscriptionArgs<never, PostsStreamSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandlerArg<PostsStreamSubscription, R>) {
+  return Urql.useSubscription<PostsStreamSubscription, R, PostsStreamSubscriptionVariables>({ query: PostsStreamDocument, ...options }, handler);
+};
+export const InsertPostDocument = gql`
+    mutation InsertPost($object: posts_insert_input = {}) {
+  insert_posts_one(object: $object) {
+    ...postsFragment
+  }
+}
+    ${PostsFragmentFragmentDoc}`;
+
+export function useInsertPostMutation() {
+  return Urql.useMutation<InsertPostMutation, InsertPostMutationVariables>(InsertPostDocument);
 };
 export const UsersDocument = gql`
     query Users($distinct_on: [auth_users_select_column!], $limit: Int, $offset: Int, $order_by: [auth_users_order_by!], $where: auth_users_bool_exp) {

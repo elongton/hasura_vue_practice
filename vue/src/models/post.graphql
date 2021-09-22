@@ -1,8 +1,34 @@
+fragment postsFragment on posts {
+  id
+  image_url
+  text
+  user {
+    first_name
+    last_name
+    id
+  }
+}
+
 query Posts {
   posts {
     id
     image_url
     text
     user_id
+  }
+}
+
+subscription PostsStream {
+  posts {
+    id
+    image_url
+    user_id
+    text
+  }
+}
+
+mutation InsertPost($object: posts_insert_input = {}) {
+  insert_posts_one(object: $object) {
+    ...postsFragment
   }
 }

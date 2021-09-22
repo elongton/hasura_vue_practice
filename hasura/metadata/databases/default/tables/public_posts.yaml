@@ -1,3 +1,40 @@
 table:
   name: posts
   schema: public
+object_relationships:
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - id
+    - user_id
+    - image_url
+    - text
+  role: user
+select_permissions:
+- permission:
+    columns:
+    - id
+    - user_id
+    - image_url
+    - text
+    filter: {}
+  role: user
+update_permissions:
+- permission:
+    check: {}
+    columns:
+    - id
+    - user_id
+    - image_url
+    - text
+    filter: {}
+  role: user
+delete_permissions:
+- permission:
+    filter: {}
+  role: user

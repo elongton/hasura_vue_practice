@@ -190,6 +190,13 @@ export type Auth_Users_Mutation_Response = {
   returning: Array<Auth_Users>;
 };
 
+/** input type for inserting object relation for remote table "auth.users" */
+export type Auth_Users_Obj_Rel_Insert_Input = {
+  data: Auth_Users_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Auth_Users_On_Conflict>;
+};
+
 /** on conflict condition type for table "auth.users" */
 export type Auth_Users_On_Conflict = {
   constraint: Auth_Users_Constraint;
@@ -439,6 +446,8 @@ export type Posts = {
   id: Scalars['Int'];
   image_url: Scalars['String'];
   text: Scalars['String'];
+  /** An object relationship */
+  user: Auth_Users;
   user_id: Scalars['Int'];
 };
 
@@ -487,6 +496,7 @@ export type Posts_Bool_Exp = {
   id?: Maybe<Int_Comparison_Exp>;
   image_url?: Maybe<String_Comparison_Exp>;
   text?: Maybe<String_Comparison_Exp>;
+  user?: Maybe<Auth_Users_Bool_Exp>;
   user_id?: Maybe<Int_Comparison_Exp>;
 };
 
@@ -507,6 +517,7 @@ export type Posts_Insert_Input = {
   id?: Maybe<Scalars['Int']>;
   image_url?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+  user?: Maybe<Auth_Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['Int']>;
 };
 
@@ -549,6 +560,7 @@ export type Posts_Order_By = {
   id?: Maybe<Order_By>;
   image_url?: Maybe<Order_By>;
   text?: Maybe<Order_By>;
+  user?: Maybe<Auth_Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
@@ -776,10 +788,24 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'mutation_root', register?: Maybe<{ __typename?: 'RegisterResult', token: string }> };
 
+export type PostsFragmentFragment = { __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } };
+
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PostsQuery = { __typename?: 'query_root', posts: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user_id: number }> };
+
+export type PostsStreamSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsStreamSubscription = { __typename?: 'subscription_root', posts: Array<{ __typename?: 'posts', id: number, image_url: string, user_id: number, text: string }> };
+
+export type InsertPostMutationVariables = Exact<{
+  object?: Maybe<Posts_Insert_Input>;
+}>;
+
+
+export type InsertPostMutation = { __typename?: 'mutation_root', insert_posts_one?: Maybe<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> };
 
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
