@@ -810,6 +810,14 @@ export type InsertPostMutationVariables = Exact<{
 
 export type InsertPostMutation = { __typename?: 'mutation_root', insert_posts_one?: Maybe<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> };
 
+export type UpdatePostMutationVariables = Exact<{
+  id?: Maybe<Int_Comparison_Exp>;
+  _set?: Maybe<Posts_Set_Input>;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'mutation_root', update_posts?: Maybe<{ __typename?: 'posts_mutation_response', returning: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> }> };
+
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
 export type UsersQueryVariables = Exact<{
@@ -914,6 +922,19 @@ export const InsertPostDocument = gql`
 
 export function useInsertPostMutation() {
   return Urql.useMutation<InsertPostMutation, InsertPostMutationVariables>(InsertPostDocument);
+};
+export const UpdatePostDocument = gql`
+    mutation UpdatePost($id: Int_comparison_exp = {}, $_set: posts_set_input = {}) {
+  update_posts(_set: $_set, where: {id: $id}) {
+    returning {
+      ...postsFragment
+    }
+  }
+}
+    ${PostsFragmentFragmentDoc}`;
+
+export function useUpdatePostMutation() {
+  return Urql.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument);
 };
 export const UsersDocument = gql`
     query Users($distinct_on: [auth_users_select_column!], $limit: Int, $offset: Int, $order_by: [auth_users_order_by!], $where: auth_users_bool_exp) {

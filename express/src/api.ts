@@ -807,6 +807,14 @@ export type InsertPostMutationVariables = Exact<{
 
 export type InsertPostMutation = { __typename?: 'mutation_root', insert_posts_one?: Maybe<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> };
 
+export type UpdatePostMutationVariables = Exact<{
+  id?: Maybe<Int_Comparison_Exp>;
+  _set?: Maybe<Posts_Set_Input>;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'mutation_root', update_posts?: Maybe<{ __typename?: 'posts_mutation_response', returning: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> }> };
+
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
 export type UsersQueryVariables = Exact<{
