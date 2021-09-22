@@ -8,9 +8,9 @@
   </ul>
 
   <form @submit.prevent="addPost" class="px-4">
-    <card class="w-24rem mx-auto mt-5 max-w-full">
-      <template #title>Login</template>
-      <template #subtitle>Fill form to add post</template>
+    <card class="w-24rem mt-5 max-w-full">
+      <template #title>Add Post</template>
+      <!-- <template #subtitle>Fill form to add post</template> -->
       <template #content>
         <div class="text-left p-fluid p-grid p-formgrid">
           <span class="p-float-label mb-4">
