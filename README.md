@@ -3,11 +3,11 @@
 ## Build a simple logging application
 
 - [x] Create simple database schema
-- [ ] Generate lgo post queries
+- [x] Generate log post queries
   - [x] Get
   - [x] Post
   - [x] Update
-  - [ ] Delete
+  - [x] Delete
 - [x] Build simple view
 
 Questions for alex:

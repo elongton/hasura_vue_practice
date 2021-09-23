@@ -8,7 +8,7 @@
   <card class="w-24rem mt-5 max-w-full">
     <template #title>Add Post</template>
     <template #content>
-      <submit-form />
+      <submit-form :editing="false" />
     </template>
   </card>
 </template>

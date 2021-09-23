@@ -36,9 +36,7 @@ interface Props {
   editing?: { text?: string; image_url?: string; id?: number } | any; //TODO: remove this any type
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  editing: { text: "", image_url: "" },
-});
+const props = defineProps<Props>();
 const intialState = {
   text: "",
   image_url: "",
@@ -82,6 +80,7 @@ const handleResponse = (data: any, error: any, isUpdate?: boolean) => {
 
 async function submitPost() {
   if (props.editing) {
+    console.log("updating!");
     const { data, error } = await updatePost({
       where: { id: { _eq: props.editing.id } },
       _set: { text: formValues.text, image_url: formValues.image_url },

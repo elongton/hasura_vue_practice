@@ -10,7 +10,7 @@
       </div>
       <div class="absolute top-0 right-0 cursor-pointer mr-2 mt-2">
         <span @click="edit">✏️</span>
-        <span class="ml-2" @click="edit">🗑️</span>
+        <span class="ml-2" @click="removePost(post.id)">🗑️</span>
       </div>
     </template>
   </card>
@@ -20,8 +20,10 @@
 import Card from "primevue/card";
 import SubmitForm from "@/components/SubmitForm.vue";
 import { ref } from "vue";
+import { useDeletePostMutation } from "../api";
 const editing = ref(false);
-defineProps<{ post: { text: string; image_url: string } }>();
+const { executeMutation: deletePost } = useDeletePostMutation();
+defineProps<{ post: { text: string; image_url: string; id: number } }>();
 
 function edit(val?: null | boolean) {
   if (val !== null) {
@@ -30,4 +32,8 @@ function edit(val?: null | boolean) {
     editing.value = !editing.value;
   }
 }
+
+const removePost = (id: number) => {
+  deletePost({ where: { id: { _eq: id } } });
+};
 </script>

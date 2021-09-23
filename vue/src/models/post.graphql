@@ -40,3 +40,11 @@ mutation UpdatePost($where: posts_bool_exp = {}, $_set: posts_set_input = {}) {
     }
   }
 }
+
+mutation DeletePost($where: posts_bool_exp = {}) {
+  delete_posts(where: $where) {
+    returning {
+      ...postsFragment
+    }
+  }
+}

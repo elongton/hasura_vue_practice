@@ -815,6 +815,13 @@ export type UpdatePostMutationVariables = Exact<{
 
 export type UpdatePostMutation = { __typename?: 'mutation_root', update_posts?: Maybe<{ __typename?: 'posts_mutation_response', returning: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> }> };
 
+export type DeletePostMutationVariables = Exact<{
+  where?: Maybe<Posts_Bool_Exp>;
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'mutation_root', delete_posts?: Maybe<{ __typename?: 'posts_mutation_response', returning: Array<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> }> };
+
 export type UserFieldsFragment = { __typename?: 'auth_users', id: number, first_name: string, last_name: string, email: string };
 
 export type UsersQueryVariables = Exact<{
