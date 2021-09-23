@@ -15,13 +15,13 @@ export:
 db-reset:
 	@$(DC) down
 	@$(DC) -f docker-compose.prod.yml down
-	docker volume rm hackathon-starter_db_data
+	docker volume rm hasura_vue_practice_db_data
 	@$(DC) up -d
 
 rebuild:
 	@$(DC) down
 	@$(DC) -f docker-compose.prod.yml down
-	docker volume rm hackathon-starter_db_data
+	docker volume rm hasura_vue_practice_db_data
 	@$(DC) build --no-cache
 	@$(DC) up -d
 
