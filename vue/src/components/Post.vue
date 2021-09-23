@@ -6,7 +6,7 @@
         <small class="mt-2">{{ post.image_url }}</small>
       </div>
       <div v-if="editing">
-        <submit-form :editing="post" />
+        <submit-form @disable-editing="edit(false)" :editing="post" />
       </div>
       <div class="absolute top-0 right-0 cursor-pointer mr-2 mt-2">
         <span @click="edit">✏️</span>
@@ -23,7 +23,11 @@ import { ref } from "vue";
 const editing = ref(false);
 defineProps<{ post: { text: string; image_url: string } }>();
 
-function edit() {
-  editing.value = !editing.value;
+function edit(val?: null | boolean) {
+  if (val !== null) {
+    editing.value = Boolean(val);
+  } else {
+    editing.value = !editing.value;
+  }
 }
 </script>

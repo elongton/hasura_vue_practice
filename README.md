@@ -6,9 +6,9 @@
 - [ ] Generate lgo post queries
   - [x] Get
   - [x] Post
-  - [ ] Update
+  - [x] Update
   - [ ] Delete
-- [ ] Build simple view
+- [x] Build simple view
 
 Questions for alex:
 

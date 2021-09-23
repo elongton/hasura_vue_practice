@@ -33,8 +33,8 @@ mutation InsertPost($object: posts_insert_input = {}) {
   }
 }
 
-mutation UpdatePost($id: Int_comparison_exp = {}, $_set: posts_set_input = {}) {
-  update_posts(_set: $_set, where: { id: $id }) {
+mutation UpdatePost($where: posts_bool_exp = {}, $_set: posts_set_input = {}) {
+  update_posts(where: $where, _set: $_set) {
     returning {
       ...postsFragment
     }

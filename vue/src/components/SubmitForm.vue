@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, defineEmits } from "vue";
 import { useInsertPostMutation, useUpdatePostMutation } from "../api";
 import { useAuth } from "../hooks/auth";
 import InputText from "primevue/inputtext";
@@ -29,6 +29,8 @@ const toaster = useToast();
 const { executeMutation: insertPost } = useInsertPostMutation();
 const { executeMutation: updatePost } = useUpdatePostMutation();
 const { user } = useAuth();
+
+const emit = defineEmits(["disableEditing"]);
 
 interface Props {
   editing?: { text?: string; image_url?: string; id?: number } | any; //TODO: remove this any type
@@ -60,9 +62,13 @@ onMounted(() => {
   }
 });
 
-const handleResponse = (data: any, error: any) => {
+const handleResponse = (data: any, error: any, isUpdate?: boolean) => {
   if (data) {
     console.log(data);
+    if (isUpdate) {
+      //emit
+      emit("disableEditing");
+    }
     resetForm();
   } else if (error) {
     toaster.add({
@@ -76,12 +82,11 @@ const handleResponse = (data: any, error: any) => {
 
 async function submitPost() {
   if (props.editing) {
-    console.log(props.editing.id);
     const { data, error } = await updatePost({
-      id: props.editing.id,
+      where: { id: { _eq: props.editing.id } },
       _set: { text: formValues.text, image_url: formValues.image_url },
     });
-    handleResponse(data, error);
+    handleResponse(data, error, true);
   } else {
     const { data, error } = await insertPost({
       object: {

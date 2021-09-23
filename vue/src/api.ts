@@ -811,7 +811,7 @@ export type InsertPostMutationVariables = Exact<{
 export type InsertPostMutation = { __typename?: 'mutation_root', insert_posts_one?: Maybe<{ __typename?: 'posts', id: number, image_url: string, text: string, user: { __typename?: 'auth_users', first_name: string, last_name: string, id: number } }> };
 
 export type UpdatePostMutationVariables = Exact<{
-  id?: Maybe<Int_Comparison_Exp>;
+  where?: Maybe<Posts_Bool_Exp>;
   _set?: Maybe<Posts_Set_Input>;
 }>;
 
@@ -924,8 +924,8 @@ export function useInsertPostMutation() {
   return Urql.useMutation<InsertPostMutation, InsertPostMutationVariables>(InsertPostDocument);
 };
 export const UpdatePostDocument = gql`
-    mutation UpdatePost($id: Int_comparison_exp = {}, $_set: posts_set_input = {}) {
-  update_posts(_set: $_set, where: {id: $id}) {
+    mutation UpdatePost($where: posts_bool_exp = {}, $_set: posts_set_input = {}) {
+  update_posts(where: $where, _set: $_set) {
     returning {
       ...postsFragment
     }
